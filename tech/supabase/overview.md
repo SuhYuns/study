@@ -1,5 +1,3 @@
-
-
 ### 20250123
 ## supabase 개론
 
@@ -83,16 +81,25 @@ supabase 클라이언트 생성
 </pre>
 
 
+각 섹션의 상단은 javascript 내에서 쓰는 코드
+하단에는 SQL Editor에서 쓰는 형식을 가져옴.
+
 ### select 쿼리 정리
 
 기본 select 쿼리
 <pre>
 <code>
     const { data, error } = await supabase
-    .from('countries')
+    .from('testing')
     .select('*')
 </code>
 </pre>
+<pre>
+<code>
+    select * from testing
+</code>
+</pre>
+
 
 특정 필드만 쿼리
 <pre>
@@ -157,8 +164,14 @@ JSON 필드 쿼리
 <pre>
 <code>
     const { error } = await supabase
-  .from('countries')
-  .insert({ id: 1, name: 'Denmark' })
+    .from('testing')
+    .insert({ id: 1, name: 'HyoJoo', age: 24 })
+</code>
+</pre>
+<pre>
+<code>
+    INSERT INTO testing (id, name, age)
+    VALUES (1, 'HyoJoo', 24);
 </code>
 </pre>
 
@@ -166,9 +179,9 @@ JSON 필드 쿼리
 <pre>
 <code>
     const { data, error } = await supabase
-  .from('countries')
-  .insert({ id: 1, name: 'Denmark' })
-  .select()
+    .from('countries')
+    .insert({ id: 1, name: 'Denmark' })
+    .select()
 </code>
 </pre>
 
@@ -176,11 +189,18 @@ JSON 필드 쿼리
 <pre>
 <code>
     const { error } = await supabase
-  .from('countries')
-  .insert([
-    { id: 1, name: 'Nepal' },
-    { id: 1, name: 'Vietnam' },
-  ])
+    .from('testing')
+    .insert([
+        { id: 2, name: 'MoJoo', age: 22 },
+        { id: 3, name: 'BaJoo', age: 27 },
+        { id: 4, name: 'MyungJoo', age: 30 },
+    ])
+</code>
+</pre>
+<pre>
+<code>
+    INSERT INTO testing (id, name, age)
+    VALUES (2, 'MoJoo', 22), (3, 'BaJoo', 27), (4, 'MyungJoo', 30);
 </code>
 </pre>
 
@@ -190,9 +210,16 @@ Row 업데이트
 <pre>
 <code>
     const { error } = await supabase
-  .from('countries')
-  .update({ name: 'Australia' })
-  .eq('id', 1)
+    .from('testing')
+    .update({ name: 'Dayoon' })
+    .eq('id', 3)
+</code>
+</pre>
+<pre>
+<code>
+    UPDATE testing
+    SET name = 'Dayoon'
+    WHERE id = 3;
 </code>
 </pre>
 
@@ -200,10 +227,18 @@ Row 업데이트
 <pre>
 <code>
     const { data, error } = await supabase
-  .from('countries')
-  .update({ name: 'Australia' })
-  .eq('id', 1)
-  .select()
+    .from('testing')
+    .update({ name: 'Dayun' })
+    .eq('id', 3)
+    .select()
+</code>
+</pre>
+<pre>
+<code>
+    UPDATE testing
+    SET name = 'Dayun'
+    WHERE id = 3
+    RETURNING *;
 </code>
 </pre>
 
@@ -211,27 +246,29 @@ JSON 데이터 업데이트
 <pre>
 <code>
     const { data, error } = await supabase
-  .from('users')
-  .update({
-    address: {
-      street: 'Melrose Place',
-      postcode: 90210
-    }
-  })
-  .eq('address->postcode', 90210)
-  .select()
+    .from('users')
+    .update({
+        address: {
+        street: 'Melrose Place',
+        postcode: 90210
+        }
+    })
+    .eq('address->postcode', 90210)
+    .select()
 </code>
 </pre>
 
 ### upsert 쿼리 정리
+upsert : 있으면 update, 없으면 insert하는 것을 말함.
+
 
 한 row upsert 쿼리
 <pre>
 <code>
     const { data, error } = await supabase
-  .from('countries')
-  .upsert({ id: 1, name: 'Albania' })
-  .select()
+    .from('countries')
+    .upsert({ id: 1, name: 'Albania' })
+    .select()
 </code>
 </pre>
 
@@ -251,10 +288,10 @@ JSON 데이터 업데이트
 id가 아닌 다른 필드로 Upsert
 <pre>
 <code>
-    const response = await supabase
-  .from('countries')
-  .delete()
-  .eq('id', 1)
+    const { data, error } = await supabase
+    .from('users')
+    .upsert({ id: 42, handle: 'saoirse', display_name: 'Saoirse' }, { onConflict: 'handle' })
+    .select()
 </code>
 </pre>
 
@@ -263,11 +300,10 @@ id가 아닌 다른 필드로 Upsert
 한 row delete
 <pre>
 <code>
-    const { data, error } = await supabase
-  .from('countries')
-  .delete()
-  .eq('id', 1)
-  .select()
+    const response = await supabase
+    .from('countries')
+    .delete()
+    .eq('id', 1)
 </code>
 </pre>
 
@@ -275,10 +311,10 @@ delete 후 결과 반환
 <pre>
 <code>
     const { data, error } = await supabase
-  .from('countries')
-  .delete()
-  .eq('id', 1)
-  .select()
+    .from('countries')
+    .delete()
+    .eq('id', 1)
+    .select()
 </code>
 </pre>
 
@@ -286,9 +322,9 @@ delete 후 결과 반환
 <pre>
 <code>
     const response = await supabase
-  .from('countries')
-  .delete()
-  .in('id', [1, 2, 3])
+    .from('countries')
+    .delete()
+    .in('id', [1, 2, 3])
 </code>
 </pre>
 
