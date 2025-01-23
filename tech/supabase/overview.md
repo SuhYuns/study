@@ -86,21 +86,26 @@ supabase 클라이언트 생성
 ### select 쿼리 정리
 
 기본 select 쿼리
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('countries')
     .select('*')
-</code></pre>
+</code>
+</pre>
 
 특정 필드만 쿼리
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('countries')
     .select('name')
-</code></pre>
+</code>
+</pre>
 
 다른 테이블 join
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('countries')
     .select(`
@@ -109,27 +114,33 @@ supabase 클라이언트 생성
         name
         )
     `)
-</code></pre>
+</code>
+</pre>
 
 결과 갯수 카운트 처리
-<pre><code>
+<pre>
+<code>
     const { count, error } = await supabase
     .from('countries')
     .select('*', { count: 'exact', head: true })
-</code></pre>
+</code>
+</pre>
 
 JSON 필드 쿼리
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('users')
     .select(`
         id, name,
         address->city
     `)
-</code></pre>
+</code>
+</pre>
 
 복잡한 검색 기능 구현
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('quotes')
     .select('catchphrase')
@@ -137,56 +148,68 @@ JSON 필드 쿼리
         type: 'websearch',
         config: 'english'
     })
-</code></pre>
+</code>
+</pre>
 
 ### insert 쿼리 정리
 
 데이터 삽입
-<pre><code>
+<pre>
+<code>
     const { error } = await supabase
   .from('countries')
   .insert({ id: 1, name: 'Denmark' })
-</code></pre>
+</code>
+</pre>
 
 데이터 삽입 후 결과 반환
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('countries')
   .insert({ id: 1, name: 'Denmark' })
   .select()
-</code></pre>
+</code>
+</pre>
 
 한 번에 여러 row 삽입
-<pre><code>
+<pre>
+<code>
     const { error } = await supabase
   .from('countries')
   .insert([
     { id: 1, name: 'Nepal' },
     { id: 1, name: 'Vietnam' },
   ])
-</code></pre>
+</code>
+</pre>
 
 ### update 쿼리 정리
 
 Row 업데이트
-<pre><code>
+<pre>
+<code>
     const { error } = await supabase
   .from('countries')
   .update({ name: 'Australia' })
   .eq('id', 1)
-</code></pre>
+</code>
+</pre>
 
 업데이트 후 결과 반환
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('countries')
   .update({ name: 'Australia' })
   .eq('id', 1)
   .select()
-</code></pre>
+</code>
+</pre>
 
 JSON 데이터 업데이트
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('users')
   .update({
@@ -197,20 +220,24 @@ JSON 데이터 업데이트
   })
   .eq('address->postcode', 90210)
   .select()
-</code></pre>
+</code>
+</pre>
 
 ### upsert 쿼리 정리
 
 한 row upsert 쿼리
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('countries')
   .upsert({ id: 1, name: 'Albania' })
   .select()
-</code></pre>
+</code>
+</pre>
 
 한 번에 여러 row upsert 쿼리
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
     .from('countries')
     .upsert([
@@ -218,43 +245,52 @@ JSON 데이터 업데이트
         { id: 2, name: 'Algeria' },
     ])
     .select()
-</code></pre>
+</code>
+</pre>
 
 id가 아닌 다른 필드로 Upsert
-<pre><code>
+<pre>
+<code>
     const response = await supabase
   .from('countries')
   .delete()
   .eq('id', 1)
-</code></pre>
+</code>
+</pre>
 
 ### Delete 쿼리 정리
 
 한 row delete
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('countries')
   .delete()
   .eq('id', 1)
   .select()
-</code></pre>
+</code>
+</pre>
 
 delete 후 결과 반환
-<pre><code>
+<pre>
+<code>
     const { data, error } = await supabase
   .from('countries')
   .delete()
   .eq('id', 1)
   .select()
-</code></pre>
+</code>
+</pre>
 
 여러 row 제거
-<pre><code>
+<pre>
+<code>
     const response = await supabase
   .from('countries')
   .delete()
   .in('id', [1, 2, 3])
-</code></pre>
+</code>
+</pre>
 
 
 
