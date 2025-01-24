@@ -266,9 +266,18 @@ upsert : 있으면 update, 없으면 insert하는 것을 말함.
 <pre>
 <code>
     const { data, error } = await supabase
-    .from('countries')
-    .upsert({ id: 1, name: 'Albania' })
+    .from('testing')
+    .upsert({ id: 1, name: 'jiyoon' })
     .select()
+</code>
+</pre>
+<pre>
+<code>
+    INSERT INTO testing (id, name)
+    VALUES (1, 'jiyoon')
+    ON CONFLICT (id) 
+    DO UPDATE SET name = EXCLUDED.name
+    RETURNING *;
 </code>
 </pre>
 
@@ -307,14 +316,22 @@ id가 아닌 다른 필드로 Upsert
 </code>
 </pre>
 
+
 delete 후 결과 반환
 <pre>
 <code>
     const { data, error } = await supabase
-    .from('countries')
+    .from('testing')
     .delete()
     .eq('id', 1)
     .select()
+</code>
+</pre>
+<pre>
+<code>
+    DELETE FROM testing
+    WHERE id = 1
+    RETURNING *;
 </code>
 </pre>
 
@@ -331,10 +348,54 @@ delete 후 결과 반환
 
 
 - - -
+- - -
 
+## 에버노트 만들어보기
+### 세팅
+
+
+### VSCode
+- Prettier
+- TailwindCSS
+- Github Copilot
+
+### NVM 혹은 Node 18버전 설치
+
+
+### Typescript 설치
 
 <pre>
 <code>
-    test
+    npm i -g typescript
+    npx create-next-app@latest inflearn-supabase-note
+    npm dev run
 </code>
 </pre>
+
+
+setting
+- Typescript
+- Tailwind CSS
+- App Router
+
+
+- - -
+
+## Supabase project 만들기
+
+Info (임시용)
+PWD
+pKvwqNlLLtJnoMWz
+
+API KEY
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppZHRmbmhuYWhxZXllYWZrZ3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2OTk3MjcsImV4cCI6MjA1MzI3NTcyN30.gM6-IJH4kueDTCtV9VvLeTRxIMO4voAvprcyvxvwzuc
+
+project URL
+https://zidtfnhnahqeyeafkgqn.supabase.co
+
+
+<https://lopunko.notion.site/Next-js-Supabase-SDK-3f014bf9303c45e39665a2b1fa07427e>
+
+
+
+
