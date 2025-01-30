@@ -105,6 +105,8 @@ document에다 데이터를 기록하는데, 자바스크립트 object 자료와
 1. 컴퓨터에 직접 mongoDB 설치
 2. 클라우드에서 호스팅받아 사용
 
+yanqhwa
+1dqLaLLM5xW9ZQsr
 
 ### mongoDB를 node.js에 연결하기
 
@@ -133,4 +135,50 @@ document에다 데이터를 기록하는데, 자바스크립트 object 자료와
 </code>
 </pre>
 
+
+- objectId의 특징 : 서로 중복되지 않고, 먼저 만든 document가 낮은 ObjectId를 가지고 있음 (자동부여)
+
 - - -
+
+### 웹페이지에 DB 데이터 꽂기 (EJS/서버사이드 렌더링)
+
+ npm install ejs
+ app.set('view engine', 'ejs') 
+ - 서버 파일 상단에 view engine 쓰겠다고 선언
+ - ejs 파일들은 views 라는 폴더에 만들어서 보관해야 함 (post.ejs 로 저장)
+
+
+ <pre>
+<code>
+
+    app.get('/list', async (요청, 응답) => {
+        let result = await db.collection('post').find().toArray()
+        응답.render('list.ejs', { 글목록 : result })
+    })  
+
+
+    (list.ejs 파일 아무데나)
+    <%= JSON.stringify(글목록) %>
+
+    <% for (var i = 0; 글목록.length < 2; i++) { %>
+        <hr>
+        <div class="list-box">
+            <h4><%= JSON.stringify(글목록[i].title) %></h4>
+            <p><%= JSON.stringify(글목록[i].content) %></p>
+        </div>
+        <hr>
+    <% } %>
+
+</code>
+</pre>
+
+
+서버사이드 렌더링과 클라이언트사이드렌더링
+
+html 조립식으로 첨부하기
+
+<%- include('nav.ejs') %>
+
+<%- %> <%= %> 차이 조사
+<%- %> 사용하면 그 안에 들어있는게 html인 경우 그걸 실제로 렌더링해줍니다.
+<%= %> 사용하면 그 안에 들어있는게 html이어도 그걸 렌더링해주진 않고 일반 문자처럼 보여줍니다.
