@@ -148,7 +148,7 @@ yanqhwa
  - ejs 파일들은 views 라는 폴더에 만들어서 보관해야 함 (post.ejs 로 저장)
 
 
- <pre>
+<pre>
 <code>
 
     app.get('/list', async (요청, 응답) => {
@@ -179,6 +179,56 @@ html 조립식으로 첨부하기
 
 <%- include('nav.ejs') %>
 
+<pre>
+<code>
+
+    (모듈식)
+
+    <div class="nav">
+        <a class="logo">Apple</a>
+        <a href="">page1</a>
+        <a href="">page2</a>
+    </div>
+
+    ....
+
+    (조립)
+
+    <%- include('nav.ejs') %>
+
+</code>
+</pre>
+
+
 <%- %> <%= %> 차이 조사
 <%- %> 사용하면 그 안에 들어있는게 html인 경우 그걸 실제로 렌더링해줍니다.
 <%= %> 사용하면 그 안에 들어있는게 html이어도 그걸 렌더링해주진 않고 일반 문자처럼 보여줍니다.
+
+
+### HTTP method는 뭔지 알죠?
+
+- GET : 서버에게 데이터 달라고 할 때
+- POST : 서버에게 데이터 보내고 싶을 떄
+- UPDATE/PUT : 서버에게 DB 수정 요청할 때
+- DELETE : 서버에게 데이터 삭제 요청할 떄
+
+
+app.get('/a', (req, res) => {})
+하면 '/a'로 get 요청을 하는 것이라고 이해하면 된다.
+
+
+*** 좋은 API 만드는 법 (RESTful API) ***
+- uniform interface : 여러 URL과 method는 일관성이 있어야 한다. 간결하고 예측 가능하게 URL과 method 구성
+- client - server 역할 구분
+- stateless : 요청들은 서로 의존성이 있으면 안되고 독립적으로 수행되어야 한다.
+- cacheable : 서버가 보내는 자료들은 캐싱이 가능해야 함 (자주 받는 자료들은 브라우저에서 하드에 저장)
+- layered system : 서버 기능을 만들 때 레이어를 걸쳐서 코드가 실행되도록 만들어도 괜춘
+- code on demand : 서버는 실행가능한 코드 보낼 수 있다.
+
+REST API의 기존 개념은 method/URL이 잘 기입한 것을 부름
+array, object 데이터만 달랑 보내는 API들을 REST API라고 가끔 부르기도 한다.
+
+- 명사 위주 구성
+- 언더바 대신 대시(-) 사용
+- 파일 확정자 쓰지 않기
+- 하위 문서들을 뜻할 땐 / 기호 사용
