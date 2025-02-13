@@ -368,7 +368,9 @@ delete 후 결과 반환
 <code>
     npm i -g typescript
     npx create-next-app@latest inflearn-supabase-note
-    npm dev run
+    npm run dev
+
+    npm install // 의존성 재설치
 </code>
 </pre>
 

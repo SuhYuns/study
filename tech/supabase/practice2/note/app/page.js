@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Main from "@/components/test";
 import Comment from "@/components/comment";
+import Header from "@/components/header";
+import Sidebar from "@/components/sidebar";
 import { useEffect, useState } from "react";
 // import { supabase } from "@/utils/supabase";
 // import { Database } from "@/types_db";
@@ -10,7 +12,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [note, setNote] = useState(
     [
-      { title : "제목", content : "내용"},
+      { title : "ㅇ", content : "내용"},
       { title : "제목2", content : "내용2"},
       { title : "제목3", content : "내용3"},
     ]
@@ -36,11 +38,17 @@ export default function Home() {
 
   return (
     <div>
-      <h2>Hello</h2>
-      {/* <pre>{JSON.stringify(note[0]["title"], null, 2)}</pre> */}
+      <main className="w-full h-screen bg-white">
+        <Header />
+        <div className="grow relative">
+          <Sidebar note={note} />
+
+          <Main note={note} />
+          <Comment note={note} setNote={setNote} />
+        </div>
+      </main>
+
       
-      <Main note={note} />
-      <Comment note={note} setNote={setNote} />
     </div>
   );
 }
