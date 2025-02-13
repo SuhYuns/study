@@ -232,3 +232,47 @@ array, object 데이터만 달랑 보내는 API들을 REST API라고 가끔 부�
 - 언더바 대신 대시(-) 사용
 - 파일 확정자 쓰지 않기
 - 하위 문서들을 뜻할 땐 / 기호 사용
+
+
+# 글 작성 기능 (POST) 
+
+
+1. 유저가 글작성페이지에서 글 작성 후 서버로 글을 보냄
+2. 서버는 글을 받으면 잘 썼나 확인
+3. 서버는 그걸 DB에 저장
+
+## write.ejs 만들기
+
+<pre>
+<code>
+
+    <form action="/add" method="POST">
+        <h4>글쓰기</h4>
+        <input name="title">
+        <input name="content">
+        <button type="submit">전송</button>
+    </form> 
+
+
+
+    app.post('/add', (req, res)=>{
+        console.log(req.body)
+    }) 
+
+</code>
+</pre>
+
+
+*** <form action="/어쩌구" method="POST"> ***
+/어쩌구 라는 URL로 POST 요청이 가게 된다.
+
+
++ 추가 : 유저가 보낸 정보를 쉽게 출력하기 위한 세팅 (요청.body로 쉽게 꺼낼 수 있음)
+<pre>
+<code>
+
+    app.use(express.json())
+    app.use(express.urlencoded({extended:true})) 
+
+</code>
+</pre>
